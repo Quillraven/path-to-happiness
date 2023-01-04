@@ -1,0 +1,104 @@
+import type { FormEvent } from "react";
+import { useState } from "react";
+import { api } from "../utils/api";
+import { z } from "zod";
+
+export const bucketListSchema = z.object({
+  entries: z.array(
+    z.string()
+      .min(1, "bucket list entry must not be empty")
+      .max(100, "bucket list entry must not be longer than 100 characters")
+  )
+});
+
+export function CreateBucketList() {
+
+  const [showForm, setShowForm] = useState(false);
+  const [entries, setEntries] = useState<string[]>([]);
+  const [error, setError] = useState<string>("");
+  const { mutateAsync: createBucketList } = api.bucketList.create.useMutation();
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>, form: HTMLFormElement) {
+    event.preventDefault();
+
+    const newEntries = new Array<string>();
+    for (let i = 0; i < form.elements.length; i++) {
+      const element = form.elements[i] as HTMLInputElement;
+      if (element.type === "text") {
+        newEntries.push(element.value);
+      }
+    }
+
+    const parseResult = bucketListSchema.safeParse({ entries: newEntries });
+    if (!parseResult.success) {
+      setError(
+        parseResult.error.errors
+          .map((error, idx) => `error with item ${idx}: ${error.message}`)
+          .join("\n")
+      );
+      return;
+    }
+
+    createBucketList({ entries: newEntries as [string, ...string[]] });
+    setEntries(newEntries);
+    setError("");
+    setShowForm(false);
+  }
+
+  return (
+    <>
+      {/* button to open form modal */}
+      <button className={"btn btn-outline btn-secondary"} onClick={() => setShowForm(true)}>
+        Create Bucket List
+      </button>
+
+      {/* form modal */}
+      {showForm &&
+        <div className="modal modal-open">
+          <div className="modal-box">
+
+            {/* modal close button */}
+            <label className="btn btn-sm btn-circle absolute right-2 top-2"
+                   onClick={() => setShowForm(false)}
+            >
+              ✕
+            </label>
+
+            {/* modal title and description */}
+            <h3 className="font-bold text-lg">Enter your bucket list!</h3>
+            <p className="py-4">Some fancy description!</p>
+
+            {/* form entries for bucket list */}
+            <form onSubmit={(e) => handleSubmit(e, e.currentTarget)}>
+              <input type="text"
+                     placeholder={"bucket item"}
+                     className={"input input-bordered input-primary w-full max-w-xs"}
+                     autoFocus={true}
+              />
+
+              <div className={"modal-action"}>
+                <button className={"btn btn-primary"} type="submit">Add</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      }
+
+      {entries.map(entry => <p key={entry}>{entry}</p>)}
+
+      {/* error alert */}
+      {error &&
+        <div className="alert alert-error shadow-lg fixed bottom-0 left-2 bottom-2 mx-auto max-w-md">
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none"
+                 viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>{error}</span>
+          </div>
+        </div>
+      }
+    </>
+  );
+}
