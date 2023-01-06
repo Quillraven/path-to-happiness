@@ -11,7 +11,10 @@ const config = {
   swcMinify: true,
   i18n: {
     locales: ["en"],
-    defaultLocale: "en",
+    defaultLocale: "en"
   },
+  images: {
+    domains: ["cloudflare-ipfs.com", "cdn.discordapp.com"]
+  }
 };
 export default config;

@@ -22,17 +22,27 @@ export const bucketListRouter = createTRPCRouter({
   findMany: publicProcedure
     .input(z.object({
       cursor: z.string().optional(),
-      limit: z.number().min(1).max(100).default(10),
+      limit: z.number().min(1).max(100).default(10)
     }))
-    .query(({ input, ctx }) => {
-      const bucketLists = ctx.prisma.bucketList.findMany({
+    .query(async ({ input, ctx }) => {
+      const bucketLists = await ctx.prisma.bucketList.findMany({
+        take: input.limit,
         orderBy: {
           createdAt: "desc"
+        },
+        include: {
+          author: {
+            select: {
+              name: true,
+              image: true,
+              id: true
+            }
+          }
         }
-      })
+      });
 
       return {
-        bucketLists,
-      }
+        bucketLists
+      };
     })
 });
