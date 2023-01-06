@@ -2,6 +2,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { signIn, useSession } from "next-auth/react";
 import { CreateBucketList } from "../components/CreateBucketList";
+import Link from "next/link";
 
 const Home: NextPage = () => {
 
@@ -15,9 +16,13 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <button onClick={() => signIn()}>Login</button>
-
-      <CreateBucketList />
+      <div className={"flex flex-col items-start"}>
+        <button className={"btn btn-primary"} onClick={() => signIn()}>Login</button>
+        <CreateBucketList />
+        <Link href={"/bucketlists"}>
+          <button className={"btn btn-secondary"}>Bucket Lists</button>
+        </Link>
+      </div>
     </>
   );
 };

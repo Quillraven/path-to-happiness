@@ -61,7 +61,7 @@ export function CreateBucketList() {
   }
 
   return (
-    <>
+    <div>
       {/* button to open form modal */}
       <button className={"btn btn-outline btn-secondary"} onClick={() => setShowForm(true)}>
         Create Bucket List
@@ -116,6 +116,6 @@ export function CreateBucketList() {
           </div>
         </div>
       }
-    </>
+    </div>
   );
 }
