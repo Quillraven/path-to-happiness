@@ -1,18 +1,27 @@
 import { useRouter } from "next/router";
 import { api } from "../utils/api";
 import { BucketList } from "../components/BucketList";
+import { Header } from "../components/Header";
+import { Footer } from "../components/Footer";
 
-export default function BucketLists() {
+export default function ViewBucketLists() {
 
   const router = useRouter();
   const { data } = api.bucketList.findMany.useQuery({});
   const { bucketLists } = data || {};
 
   return (
-    <div>
-      <h1>Bucket Lists</h1>
+    <>
+      <Header/>
+
+      {/* content */}
       <button className={"btn btn-primary btn-outline"} onClick={() => router.back()}>Back</button>
-      {bucketLists?.map((bucketList) => <BucketList bucketList={bucketList} key={bucketList.id} />)}
-    </div>
+      <div>
+        <h1>Bucket Lists</h1>
+        {bucketLists?.map((bucketList) => <BucketList bucketList={bucketList} key={bucketList.id} />)}
+      </div>
+
+      <Footer/>
+    </>
   );
 }
