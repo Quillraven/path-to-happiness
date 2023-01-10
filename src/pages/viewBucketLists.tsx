@@ -12,16 +12,23 @@ export default function ViewBucketLists() {
 
   return (
     <>
-      <Header/>
+      <Header />
 
       {/* content */}
       <button className={"btn btn-primary btn-outline"} onClick={() => router.back()}>Back</button>
       <div>
         <h1>Bucket Lists</h1>
-        {bucketLists?.map((bucketList) => <BucketList bucketList={bucketList} key={bucketList.id} />)}
+        {bucketLists?.map((bucketList) => {
+          return (
+            <div key={bucketList.id}>
+              <BucketList bucketList={bucketList} />
+              <div className="divider"></div>
+            </div>
+          );
+        })}
       </div>
 
-      <Footer/>
+      <Footer />
     </>
   );
 }
