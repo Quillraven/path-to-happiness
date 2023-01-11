@@ -10,8 +10,6 @@ const Home: NextPage = () => {
 
   const { data: session, status } = useSession();
 
-  console.log(status);
-
   return (
     <>
       <Head>
