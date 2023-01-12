@@ -9,7 +9,7 @@ dayjs.extend(relativeTime);
 export function BucketList({ bucketList: data }: { bucketList: RouterOutputs["bucketList"]["findMany"]["bucketLists"][number] }) {
 
   return (
-    <div className="hero bg-secondary-content justify-items-start max-w-2xl">
+    <div className="hero bg-secondary-content justify-items-center lg:justify-items-start max-w-2xl">
       <div className="hero-content flex-col lg:flex-row">
 
         {/* author card */}
@@ -36,14 +36,11 @@ export function BucketList({ bucketList: data }: { bucketList: RouterOutputs["bu
         </div>
 
         {/*author's bucket list (on mobile it is below the card; on desktop it is in the same row) */}
-        <div>
-          <h1 className="text-5xl font-bold">Bucket List</h1>
+        <ul className={"lg:ml-4"}>
           {data.entries.map((entry, idx) => (
-            <ul key={`List-${data.author.id}-${idx}`} className={"text-left"}>
-              <li>{entry}</li>
-            </ul>
+            <li key={`BucketList-Item-${data.author.id}-${idx}`} className={"list-disc"}> {entry}</li>
           ))}
-        </div>
+        </ul>
       </div>
     </div>
   );

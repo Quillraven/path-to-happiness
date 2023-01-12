@@ -12,6 +12,8 @@ export function Header() {
 
   return (
     <div className={"flex flex-row"}>
+
+      {/* title */}
       <header className="flex justify-center items-center w-full mb-4">
         <h1
           className="text-6xl font-bold bg-clip-text pb-6 text-transparent bg-gradient-to-r from-primary to-secondary">
@@ -19,7 +21,8 @@ export function Header() {
         </h1>
       </header>
 
-      <label className="swap swap-rotate ml-4">
+      {/* theme toggle */}
+      <label className="swap swap-rotate ml-4 mt-4 self-start">
         <input type="checkbox" onChange={(e) => handleThemeChange(e)} />
         <svg className="swap-on fill-current w-10 h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path

@@ -7,22 +7,37 @@ import { api } from "../utils/api";
 
 import "../styles/globals.css";
 import { useState } from "react";
+import Head from "next/head";
+import { Header } from "../components/Header";
+import { Footer } from "../components/Footer";
 
 const MyApp: AppType<{ session: Session | null }> = ({
-  Component,
-  pageProps: { session, ...pageProps },
-}) => {
+                                                       Component,
+                                                       pageProps: { session, ...pageProps }
+                                                     }) => {
 
   const [theme, setTheme] = useState(ThemeType.LIGHT);
 
   return (
-    <SessionProvider session={session}>
-      <ThemeContext.Provider value={{ theme, setTheme }}>
-        <div data-theme={theme}>
-          <Component {...pageProps} />
-        </div>
-      </ThemeContext.Provider>
-    </SessionProvider>
+    <>
+      <Head>
+        <title>Path to Happiness</title>
+        <meta name="description" content="View the wishes of the world to become happy" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <SessionProvider session={session}>
+        <ThemeContext.Provider value={{ theme, setTheme }}>
+          <div data-theme={theme} className={"flex flex-col items-center w-full"}>
+            <Header />
+
+            <Component {...pageProps} />
+
+            <Footer />
+          </div>
+        </ThemeContext.Provider>
+      </SessionProvider>
+    </>
   );
 };
 

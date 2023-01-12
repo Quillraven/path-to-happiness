@@ -1,8 +1,6 @@
 import { useRouter } from "next/router";
 import { api } from "../utils/api";
 import { BucketList } from "../components/BucketList";
-import { Header } from "../components/Header";
-import { Footer } from "../components/Footer";
 
 export default function ViewBucketLists() {
 
@@ -12,12 +10,8 @@ export default function ViewBucketLists() {
 
   return (
     <>
-      <Header />
-
-      {/* content */}
-      <button className={"btn btn-primary btn-outline"} onClick={() => router.back()}>Back</button>
+      <button className={"btn btn-primary btn-outline mb-2"} onClick={() => router.back()}>Back</button>
       <div>
-        <h1>Bucket Lists</h1>
         {bucketLists?.map((bucketList) => {
           return (
             <div key={bucketList.id}>
@@ -27,8 +21,6 @@ export default function ViewBucketLists() {
           );
         })}
       </div>
-
-      <Footer />
     </>
   );
 }
