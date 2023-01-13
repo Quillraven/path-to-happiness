@@ -9,11 +9,11 @@ dayjs.extend(relativeTime);
 export function BucketList({ bucketList: data }: { bucketList: RouterOutputs["bucketList"]["findMany"]["bucketLists"][number] }) {
 
   return (
-    <div className="hero bg-secondary-content justify-items-center lg:justify-items-start max-w-2xl">
+    <div className="hero bg-base-200">
       <div className="hero-content flex-col lg:flex-row">
 
         {/* author card */}
-        <div className="card max-w-md bg-base-100 shadow-xl">
+        <div className="card bg-base-100 shadow-xl lg:w-1/2">
           {/*author image */}
           {data.author.image &&
             <figure className="px-10 pt-10">
@@ -24,11 +24,11 @@ export function BucketList({ bucketList: data }: { bucketList: RouterOutputs["bu
               </div>
             </figure>
           }
-          <div className="card-body items-center text-center">
-            <h2 className="card-title font-bold text-3xl">{data.author.name}</h2>
+          <div className="card-body items-start text-start">
+            <h2 className="card-title font-bold self-center text-3xl">{data.author.name}</h2>
             <p><b>Created</b>: {dayjs(data.createdAt).fromNow()} <br />
               <b>Last updated</b>: {dayjs(data.updatedAt).fromNow()}</p>
-            <div className="card-actions">
+            <div className="card-actions self-center">
               <button className="btn btn-success"><FaThumbsUp /></button>
               <button className="btn btn-error"><FaExclamation /></button>
             </div>
@@ -36,11 +36,13 @@ export function BucketList({ bucketList: data }: { bucketList: RouterOutputs["bu
         </div>
 
         {/*author's bucket list (on mobile it is below the card; on desktop it is in the same row) */}
-        <ul className={"lg:ml-4"}>
-          {data.entries.map((entry, idx) => (
-            <li key={`BucketList-Item-${data.author.id}-${idx}`} className={"list-disc"}> {entry}</li>
-          ))}
-        </ul>
+        <div className={"w-full lg:w-1/2 lg:ml-4"}>
+          <ul>
+            {data.entries.map((entry, idx) => (
+              <li key={`BucketList-Item-${data.author.id}-${idx}`} className={"list-disc"}> {entry}</li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );
