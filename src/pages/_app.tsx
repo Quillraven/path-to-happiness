@@ -12,10 +12,9 @@ import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 
 const MyApp: AppType<{ session: Session | null }> = ({
-                                                       Component,
-                                                       pageProps: { session, ...pageProps }
-                                                     }) => {
-
+  Component,
+  pageProps: { session, ...pageProps },
+}) => {
   const [theme, setTheme] = useState(ThemeType.LIGHT);
 
   return (
@@ -28,7 +27,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
       <SessionProvider session={session}>
         <ThemeContext.Provider value={{ theme, setTheme }}>
-          <div data-theme={theme} className={"flex flex-col items-center w-full h-screen"}>
+          <div data-theme={theme} className={"flex h-screen w-full flex-col items-center"}>
             <Header />
 
             <Component {...pageProps} />

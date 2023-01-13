@@ -13,7 +13,6 @@ export const bucketListSchema = z.object({
 });
 
 export function CreateBucketList() {
-
   const [showForm, setShowForm] = useState(false);
   const [entries, setEntries] = useState([""]);
   const [error, setError] = useState("");
@@ -34,7 +33,7 @@ export function CreateBucketList() {
     if (!parseResult.success) {
       setError(
         parseResult.error.errors
-          .map(error => `error with ${error.path}: ${error.message}`)
+          .map((error) => `error with ${error.path}: ${error.message}`)
           .join("\n")
       );
       return;
@@ -63,59 +62,79 @@ export function CreateBucketList() {
   return (
     <div>
       {/* button to open form modal */}
-      <button className={"btn btn-outline btn-secondary"} onClick={() => setShowForm(true)}>
+      <button className={"btn-outline btn-secondary btn"} onClick={() => setShowForm(true)}>
         Create Bucket List
       </button>
 
       {/* form modal */}
-      <Modal title={"Enter your bucket list!"}
-             showState={[showForm, setShowForm]}
-             description={"Some fancy description!"}
+      <Modal
+        title={"Enter your bucket list!"}
+        showState={[showForm, setShowForm]}
+        description={"Some fancy description!"}
       >
         {/* form entries for bucket list */}
         <form onSubmit={(e) => handleSubmit(e, e.currentTarget)}>
           {entries.map((entryStr, idx) => {
-              const isNotLastItem = idx < entries.length - 1;
-              return <div key={`bucketlist-item-div-${idx}`} className={"flex-row justify-between"}>
-                <input type={"text"}
-                       key={`bucketlist-item-${idx}`}
-                       placeholder={"bucket item"}
-                       value={entryStr}
-                       className={"input input-bordered input-primary w-full max-w-xs mb-2"}
-                       onChange={(e) => handleBucketListItemChange(e, idx)}
-                       autoFocus={idx === 0}
+            const isNotLastItem = idx < entries.length - 1;
+            return (
+              <div key={`bucketlist-item-div-${idx}`} className={"flex-row justify-between"}>
+                <input
+                  type={"text"}
+                  key={`bucketlist-item-${idx}`}
+                  placeholder={"bucket item"}
+                  value={entryStr}
+                  className={"input-bordered input-primary input mb-2 w-full max-w-xs"}
+                  onChange={(e) => handleBucketListItemChange(e, idx)}
+                  autoFocus={idx === 0}
                 />
-                <button type={"button"}
-                        className={`btn btn-outline ${isNotLastItem ? "btn-error" : "btn-accent"} ml-2`}
-                        onClick={() => handleBucketListItemClick(isNotLastItem, idx)}
+                <button
+                  type={"button"}
+                  className={`btn-outline btn ${isNotLastItem ? "btn-error" : "btn-accent"} ml-2`}
+                  onClick={() => handleBucketListItemClick(isNotLastItem, idx)}
                 >
                   {isNotLastItem ? "x" : "+"}
                 </button>
-              </div>;
-            }
-          )}
+              </div>
+            );
+          })}
 
           <div className={"modal-action"}>
-            <button className={"btn btn-primary"} type="submit">Add</button>
+            <button className={"btn-primary btn"} type="submit">
+              Add
+            </button>
           </div>
         </form>
       </Modal>
 
-      {entries.map(entry => <p key={entry}>{entry}</p>)}
+      <ul>
+        {entries.map((entry, idx) => (
+          <li key={`BucketList-Item-${idx}`} className={"list-disc text-xl"}>
+            {entry}
+          </li>
+        ))}
+      </ul>
 
       {/* error alert */}
-      {error &&
-        <div className="alert alert-error shadow-lg fixed bottom-0 left-2 bottom-2 mx-auto max-w-md">
+      {error && (
+        <div className="alert alert-error fixed bottom-0 left-2 bottom-2 mx-auto max-w-md shadow-lg">
           <div>
-            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none"
-                 viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 flex-shrink-0 stroke-current"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
             </svg>
             <div className={"whitespace-pre-wrap"}>{error}</div>
           </div>
         </div>
-      }
+      )}
     </div>
   );
 }

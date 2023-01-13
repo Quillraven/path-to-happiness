@@ -6,8 +6,8 @@ export enum ThemeType {
 }
 
 interface Theme {
-  theme: ThemeType,
-  setTheme: (theme: ThemeType) => void
+  theme: ThemeType;
+  setTheme: (theme: ThemeType) => void;
 }
 
 export const ThemeContext = createContext<Theme | undefined>(undefined);
