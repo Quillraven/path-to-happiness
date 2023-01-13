@@ -8,7 +8,7 @@ const Home: NextPage = () => {
   const { data: session, status } = useSession();
 
   return (
-    <div className={"flex flex-col items-center [&>*]:m-1"}>
+    <div className={"flex flex-col items-center justify-center [&>*]:m-1"}>
       {/*view bucket lists of all users*/}
       <Link href={"/viewBucketLists"}>
         <button className={"btn btn-secondary"}>View bucket lists</button>

@@ -7,7 +7,6 @@ export default function UpdateBucketList() {
 
   return (
     <div className={"flex flex-col items-center [&>*]:m-1"}>
-      <h1>Update Bucket List</h1>
       <button className={"btn btn-primary btn-outline"} onClick={() => router.back()}>Back</button>
       <CreateBucketList />
     </div>

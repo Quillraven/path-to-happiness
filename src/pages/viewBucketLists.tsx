@@ -10,8 +10,8 @@ export default function ViewBucketLists() {
 
   return (
     <>
-      <button className={"btn btn-primary btn-outline mb-2"} onClick={() => router.back()}>Back</button>
-      <div className={"w-full lg:w-1/3"}>
+      <button className={"btn btn-primary btn-outline mb-2 "} onClick={() => router.back()}>Back</button>
+      <div className={"carousel carousel-vertical w-full lg:w-1/3"}>
         {bucketLists?.map((bucketList) => {
           return (
             <div key={bucketList.id}>

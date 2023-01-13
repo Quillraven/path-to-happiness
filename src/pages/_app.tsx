@@ -28,7 +28,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
       <SessionProvider session={session}>
         <ThemeContext.Provider value={{ theme, setTheme }}>
-          <div data-theme={theme} className={"flex flex-col items-center w-full"}>
+          <div data-theme={theme} className={"flex flex-col items-center w-full h-screen"}>
             <Header />
 
             <Component {...pageProps} />
