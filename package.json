@@ -8,6 +8,7 @@
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start",
+    "pushDb": "prisma db push",
     "loadMockData": "prisma db seed"
   },
   "dependencies": {
