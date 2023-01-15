@@ -1,7 +1,8 @@
 import { type NextPage } from "next";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { FaDiscord, FaGoogle } from "react-icons/fa";
+import { FaDiscord } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 
 const Home: NextPage = () => {
   const { data: session } = useSession();
@@ -30,7 +31,7 @@ const Home: NextPage = () => {
             Login with <FaDiscord className={"ml-2 text-2xl"} />
           </button>
           <button className={"btn-primary btn"} onClick={() => signIn("google")}>
-            Login with <FaGoogle className={"ml-2 text-2xl"} />
+            Login with <FcGoogle className={"ml-2 text-2xl"} />
           </button>
         </>
       )}
