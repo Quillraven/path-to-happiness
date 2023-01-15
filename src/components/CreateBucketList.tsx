@@ -107,7 +107,7 @@ export function CreateBucketList() {
       </Modal>
 
       <ul>
-        {entries.map((entry, idx) => (
+        {entries.filter(e => e.length > 0).map((entry, idx) => (
           <li key={`BucketList-Item-${idx}`} className={"list-disc text-xl"}>
             {entry}
           </li>

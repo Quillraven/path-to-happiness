@@ -1,11 +1,9 @@
-import { useRouter } from "next/router";
 import { api } from "../utils/api";
 import { BucketList } from "../components/BucketList";
 import { useVScroll } from "../hooks/hooks";
 import { useState } from "react";
 
 export default function ViewBucketLists() {
-  const router = useRouter();
   const { data, hasNextPage, fetchNextPage, isFetching } = api.bucketList.findMany.useInfiniteQuery(
     { limit: 10 },
     { getNextPageParam: (lastPage) => lastPage.nextCursor }
@@ -22,11 +20,7 @@ export default function ViewBucketLists() {
 
   return (
     <>
-      <button className={"btn-outline btn-primary btn mb-2"} onClick={() => router.back()}>
-        Back
-      </button>
-
-      <div className={"w-full pb-40 lg:w-1/3"}>
+      <div className={"w-full lg:w-1/3"}>
         {/* Bucket Lists  */}
         {bucketLists?.map((bucketList, idx) => {
           return (

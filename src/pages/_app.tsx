@@ -29,10 +29,14 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <ThemeContext.Provider value={{ theme, setTheme }}>
           <div data-theme={theme} className={"flex h-screen w-full flex-col items-center"}>
             <Header />
+            {/* div to fill up space of fixed header */}
+            <div className={"w-full pb-36 lg:pb-24"} />
 
             <Component {...pageProps} />
 
             <Footer />
+            {/* div to fill up space of fixed footer */}
+            <div className={"w-full pt-40"} />
           </div>
         </ThemeContext.Provider>
       </SessionProvider>
