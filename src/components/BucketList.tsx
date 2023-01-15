@@ -47,7 +47,7 @@ export function BucketList({
         <div className={"mb-4 pl-8 lg:w-1/2 lg:pt-4"}>
           <ul>
             {data.entries.map((entry, idx) => (
-              <li key={`BucketList-Item-${data.author.id}-${idx}`} className={"list-disc"}>
+              <li key={`BucketList-Item-${data.author.id}-${idx}`} className={"list-disc break-words mr-4"}>
                 {entry}
               </li>
             ))}
