@@ -23,12 +23,28 @@ async function loadMockData() {
 
     await prisma.bucketList.create({
       data: {
-        author: { connect: { id: user.id } },
+        user: { connect: { id: user.id } },
         entries: Array(numBlEntries)
           .fill(null)
           .map(() => faker.lorem.sentence(Math.floor(Math.random() * 9) + 1)),
       },
     });
+  }
+
+  // create likes
+  const bucketLists = await prisma.bucketList.findMany();
+  for (const bucketList of bucketLists) {
+    const numLikes = Math.floor(Math.random() * 10);
+    const likers = Array.from(faker.helpers.arrayElements(users, numLikes));
+
+    for (const liker of likers) {
+      await prisma.like.create({
+        data: {
+          user: { connect: { id: liker.id } },
+          bucketList: { connect: { id: bucketList.id } },
+        },
+      });
+    }
   }
 }
 

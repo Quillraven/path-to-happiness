@@ -1,6 +1,7 @@
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { bucketListSchema } from "../../../components/CreateBucketList";
 import { z } from "zod";
+import { likeSchema } from "../../../components/BucketList";
 
 export const bucketListRouter = createTRPCRouter({
 
@@ -12,7 +13,7 @@ export const bucketListRouter = createTRPCRouter({
       return ctx.prisma.bucketList.create({
         data: {
           entries,
-          author: {
+          user: {
             connect: { id: user.id }
           }
         }
@@ -33,12 +34,15 @@ export const bucketListRouter = createTRPCRouter({
         },
         cursor: input.cursor ? { id: input.cursor } : undefined,
         include: {
-          author: {
+          user: {
             select: {
               name: true,
               image: true,
               id: true
             }
+          },
+          likes: {
+            select: { userId: true }
           }
         }
       });
@@ -54,5 +58,33 @@ export const bucketListRouter = createTRPCRouter({
         bucketLists,
         nextCursor
       };
+    }),
+
+  like: protectedProcedure
+    .input(likeSchema)
+    .mutation(({ input, ctx }) => {
+      const { user } = ctx.session;
+
+      return ctx.prisma.like.create({
+        data: {
+          bucketList: { connect: { id: input.bucketListId } },
+          user: { connect: { id: user.id } }
+        }
+      });
+    }),
+
+  unlike: protectedProcedure
+    .input(likeSchema)
+    .mutation(({ input, ctx }) => {
+      const { user } = ctx.session;
+
+      return ctx.prisma.like.delete({
+        where: {
+          userId_bucketListId: {
+            userId: user.id,
+            bucketListId: input.bucketListId
+          }
+        }
+      });
     })
 });
