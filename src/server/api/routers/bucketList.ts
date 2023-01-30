@@ -86,5 +86,28 @@ export const bucketListRouter = createTRPCRouter({
           }
         }
       });
+    }),
+
+  findByUser: protectedProcedure
+    .query(({ ctx }) => {
+      const { user } = ctx.session;
+
+      return ctx.prisma.bucketList.findUnique({
+        where: {
+          userId: user.id
+        },
+        include: {
+          user: {
+            select: {
+              name: true,
+              image: true,
+              id: true
+            }
+          },
+          likes: {
+            select: { userId: true }
+          }
+        }
+      });
     })
 });

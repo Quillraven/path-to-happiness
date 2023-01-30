@@ -3,6 +3,7 @@ import { useState } from "react";
 import { api } from "../utils/api";
 import { z } from "zod";
 import { Modal } from "./generic/Modal";
+import { BucketList } from "./BucketList";
 
 export const bucketListSchema = z.object({
   entries: z.array(
@@ -16,7 +17,11 @@ export function CreateBucketList() {
   const [showForm, setShowForm] = useState(false);
   const [entries, setEntries] = useState([""]);
   const [error, setError] = useState("");
-  const { mutateAsync: createBucketList } = api.bucketList.create.useMutation();
+  const apiCtx = api.useContext();
+  const { mutateAsync: createBucketList } = api.bucketList.create.useMutation(
+    { onSuccess: () => apiCtx.bucketList.findByUser.invalidate() }
+  );
+  const { data: userBucketList } = api.bucketList.findByUser.useQuery();
 
   function handleSubmit(event: FormEvent<HTMLFormElement>, form: HTMLFormElement) {
     event.preventDefault();
@@ -60,9 +65,9 @@ export function CreateBucketList() {
   }
 
   return (
-    <div>
+    <div className={"flex flex-col items-center justify-center"}>
       {/* button to open form modal */}
-      <button className={"btn-outline btn-secondary btn"} onClick={() => setShowForm(true)}>
+      <button className={"btn-outline btn-secondary btn mb-2"} onClick={() => setShowForm(true)}>
         Create Bucket List
       </button>
 
@@ -106,13 +111,8 @@ export function CreateBucketList() {
         </form>
       </Modal>
 
-      <ul>
-        {entries.filter(e => e.length > 0).map((entry, idx) => (
-          <li key={`BucketList-Item-${idx}`} className={"list-disc text-xl"}>
-            {entry}
-          </li>
-        ))}
-      </ul>
+      {/* user bucket list, if it exists */}
+      {userBucketList && <BucketList bucketList={userBucketList} />}
 
       {/* error alert */}
       {error && (

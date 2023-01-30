@@ -41,7 +41,7 @@ export function BucketList({ bucketList }: { bucketList: RouterOutputs["bucketLi
     <div className="flex justify-center bg-base-200">
       <div className="flex flex-1 flex-col lg:flex-row">
         {/* user card */}
-        <div className="card m-4 bg-base-100 shadow-xl lg:w-1/2">
+        <div className="card m-4 bg-base-100 shadow-xl min-w-fit lg:w-1/2">
           {/*user image */}
           {bucketList.user.image && (
             <figure className="px-10 pt-10">
@@ -54,20 +54,22 @@ export function BucketList({ bucketList }: { bucketList: RouterOutputs["bucketLi
           )}
           <div className="card-body items-start text-start">
             <h2 className="card-title self-center text-3xl font-bold">{bucketList.user.name}</h2>
-            <p>
-              <b>Created</b>: {dayjs(bucketList.createdAt).fromNow()} <br />
-              <b>Last updated</b>: {dayjs(bucketList.updatedAt).fromNow()}
-            </p>
+            <div className={"flex flex-col"}>
+              <p className={"grid-cols-2 mb-4"}>
+                <b>Created</b>: {dayjs(bucketList.createdAt).fromNow()} <br />
+                <b>Last updated</b>: {dayjs(bucketList.updatedAt).fromNow()}
+              </p>
 
-            {/* action buttons*/}
-            <div className="card-actions self-center">
-              <button className={`btn-success btn ${!hasLiked ? "bg-success/60" : ""}`} onClick={() => handleLike()}>
-                <FaThumbsUp />
-                <span className={`ml-2`}>{bucketList.likes.length}</span>
-              </button>
-              <button className="btn-error btn">
-                <FaExclamation />
-              </button>
+              {/* action buttons*/}
+              <div className="card-actions self-center">
+                <button className={`btn-success btn ${!hasLiked ? "bg-success/60" : ""}`} onClick={() => handleLike()}>
+                  <FaThumbsUp />
+                  <span className={`ml-2`}>{bucketList.likes.length}</span>
+                </button>
+                <button className="btn-error btn">
+                  <FaExclamation />
+                </button>
+              </div>
             </div>
           </div>
         </div>
