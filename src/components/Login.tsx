@@ -21,6 +21,7 @@ export const Login = () => {
       setMailInpError(false);
     } else {
       setMailInpError(true);
+      inpElement.focus()
     }
   }
 
@@ -38,41 +39,43 @@ export const Login = () => {
         </>
       ) : (
         <>
-          <div className="flex justify-center items-center flex-wrap">
+          <div className="flex justify-center items-center [&>*]:mx-2">
             <form onSubmit={(e) => handleSubmit(e, e.currentTarget)}>
               {/* Email input */}
               <input name={"inpMailAddress"}
                      type="text"
                      placeholder="Email address"
-                     className="input input-bordered w-full mt-2"
+                     className={`input input-bordered input-${mailInpError ? "error" : "primary"} w-full mt-2`}
               />
 
               {mailInpError &&
-                <span className="flex items-center font-medium tracking-wide text-error text-md mt-1 ml-1">
+                <span className="flex font-medium tracking-wide text-error mt-1 ml-2">
                   Invalid mail format!
                 </span>
               }
 
-              {/* Submit button */}
+              {/* Submit button for Mail signin */}
               <button type="submit" name={"email"} className="btn-primary btn w-full mt-2">
                 Sign in
               </button>
 
               <div className="divider font-bold">OR</div>
 
-              {/* Discord */}
-              <button type="button" name={"discord"} className={"btn-primary btn mr-1"}
-                      onClick={() => signIn("discord")}
-              >
-                Sign in with <FaDiscord className={"ml-2 text-2xl"} />
-              </button>
+              <div className={"flex justify-center [&>*]:mx-2"}>
+                {/* Discord */}
+                <button type="button" name={"discord"} className={"btn-primary btn"}
+                        onClick={() => signIn("discord")}
+                >
+                  Sign in with <FaDiscord className={"ml-2 text-2xl"} />
+                </button>
 
-              {/* Google */}
-              <button type="button" name={"google"} className={"btn-primary btn ml-1"}
-                      onClick={() => signIn("google")}
-              >
-                Sign in with <FcGoogle className={"ml-2 text-2xl"} />
-              </button>
+                {/* Google */}
+                <button type="button" name={"google"} className={"btn-primary btn"}
+                        onClick={() => signIn("google")}
+                >
+                  Sign in with <FcGoogle className={"ml-2 text-2xl"} />
+                </button>
+              </div>
             </form>
           </div>
         </>
